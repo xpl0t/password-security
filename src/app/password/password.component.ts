@@ -52,70 +52,70 @@ export class PasswordComponent implements OnInit {
       const passwordIdx = this.findIndex(topPasswords['default'], password);
       if (passwordIdx !== -1) {
         this.safetyInfos.push(new PasswordInfo(
-          PasswordInfoType.Critical, 'Dieses Passwort ist die Nummer ' + (passwordIdx + 1).toString() + ' der meist genutzten Passwörtern!', 'Dein Passwort wird sehr oft genutzt! Dies führt dazu, dass es in wenigen Sekunden geknackt werden kann!'));
+          PasswordInfoType.Critical, 'This password is the number ' + (passwordIdx + 1).toString() + ' of the most used passwords!', 'Your password is used very often! This password can be cracked by wordlist attacks in a very short time!'));
       }
     }
 
     // Checking length
     if (password.match('^.{1,6}$')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Warning, 'Länge: Sehr kurz', 'Überlege dir, Passwörter mit über 9 Zeichen zu verwenden'));
+        PasswordInfoType.Warning, 'Length: very short', 'Better use passwords with 9 characters or more'));
     }
     if (password.match('^.{7,9}$')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Warning, 'Länge: kurz', 'Überlege dir, Passwörter mit über 9 Zeichen zu verwenden'));
+        PasswordInfoType.Warning, 'Length: short', 'Better use passwords with 9 characters or more'));
     }
     if (password.match('^.{15,}$')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Achievement, 'Länge: Sehr lang', 'Gut gemacht! Umso länger umso besser!'));
+        PasswordInfoType.Achievement, 'Length: very long', 'Well done 😎 The longer the password the stronger it is!'));
     }
 
     // Guesses
 
     if (password.match('^[a-zA-Z]{1,16}$')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Warning, 'Möglicherweiße ein Wort', 'Dein Passwort ist Möglicherweise ein Wort oder ein Name. Wenn es in Verbindung mit deiner Person steht könnte es sehr leicht erraten werden. Wenn es ein Wort aus einer Sprache ist kann es auch sehr schnell geknackt werden.'));
+        PasswordInfoType.Warning, 'Possibly a word', 'Your password is possibly a word or name. If it is related to a person, pet or something else it could be easily guessed. If it is a word of some language it can be easily cracked too.'));
     }
     if (password.match('^([a-zA-Z]+[0-9]+|[0-9]+[a-zA-Z]+)$')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Warning, 'Möglicherweiße ein Wort mit einer Zahl', 'Dein Passwort ist Möglicherweise ein Wort mit einer Zahl. Dies ist eine sehr häufig genutzte Kombination und kann sehr schnell geknackt werden.'));
+        PasswordInfoType.Warning, 'Possibly a word with a number', 'Your password is possibly a word with number. This is a common combination, which can be cracked pretty fast.'));
     }
 
     if (password.match('^[\\-\\(\\)\\.\\/\\s0-9]+$')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Warning, 'Möglicherweiße eine Telefonummer / Datum', 'Dein Passwort ist Möglicherweise eine Telefonummer oder ein Datum. Wenn es dass ist und es in Verbindung mit dir steht könnte es sehr leicht erraten werden.'));
+        PasswordInfoType.Warning, 'Possibly a telephone number / date', 'Your password is possibly a date or a telephone number. If it is related to you in someway it could be easily guessed, for example your birthday.'));
     }
 
     // character variety
 
     if (password.match('^[0-9]+$')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Info, 'Zeichen Variation: nur Zahlen', 'Dein Passwort besteht ausschließlich aus Zahlen. Dies senkt die Anzahl der möglichen Kombinationen erheblich!'));
+        PasswordInfoType.Info, 'Charset: only digits', 'Your password consits of digits exclusively. This shrinks the count of possible combinations dramatically!'));
     }
     if (password.match('^[A-Za-z]+$')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Info, 'Zeichen Variation: nur Buchstaben', 'Dein Passwort besteht ausschließlich aus Buchstaben. Sie können die Sicherheit erhöhen wenn sie Zahlen und Sonderzeichen hinzufügen.'));
+        PasswordInfoType.Info, 'Charset: only of letters', 'Your password consits of letters exclusively. You can enhance the password by adding digits and special characters.'));
     }
     if (password.match('^(?:\\d+[a-zA-Z]|[a-zA-Z]+\\d)[a-zA-Z\\d]*$')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Info, 'Zeichen Variation: keine Sonderzeichen', 'Dein Passwort besteht nur aus Buchstaben und Zahlen. Mit Sonderzeichen kannst du die Sicherheit deines Passworts verbessern. Nicht vergessen: Du kannst of Leerzeichen in deinem Passwort verwenden.'));
+        PasswordInfoType.Info, 'Charset: no special characters', 'Your password consits only of letters and digits. You can enhance the security of your password easily by adding them to your password.'));
     }
 
 
     if (password.match('(.+)\\1{2,}')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Warning, 'Wiederholtes Muster', 'Wiederholte Muster können dein Passwort mehr vorhersehbar machen'));
+        PasswordInfoType.Warning, 'Repeating pattern', 'Repeating patterns can make your password more predictable.'));
     }
 
     // Achievements / eastereggs
 
     if (password === 'correcthorsebatterystaple') {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Achievement, 'xkcd', 'Dieses Passwort dürfte mittlerweile auch den Crackern bekannt sein ;)'));
+        PasswordInfoType.Achievement, 'xkcd', 'Come on, you know whats up 😎'));
     }
     if (password.match('[^A-Za-z0-9\\u0000-\\u007E]')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Achievement, 'Unicode', 'Dein Passwort enthält Zeichen die nicht auf der Tastatur sind. Dies sollte es wesentlich sicherer machen, da dadurch der Zeichensatz erheblich größer ist.'));
+        PasswordInfoType.Achievement, 'Unicode', 'Your password contains unicode characters, which increases the size of the charset very much, which is very good 😉'));
     }
     if (password.match('^xpl0t|calendario|millionare|billionare$')) {
       this.safetyInfos.push(new PasswordInfo(
