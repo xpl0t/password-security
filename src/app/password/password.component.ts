@@ -148,7 +148,7 @@ export class PasswordComponent implements OnInit {
     console.log('Pool of characters: ' + pool);
     console.log('Entropy: ' + entropy);
 
-    return new EntropyInfos(pool, entropy, pool * password.length);
+    return new EntropyInfos(pool, entropy, Math.pow(pool, password.length));
   }
 
   private getSafetyPercentage(entropy: number): number {
