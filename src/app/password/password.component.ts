@@ -90,11 +90,11 @@ export class PasswordComponent implements OnInit {
 
     if (password.match('^[0-9]+$')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Info, 'Charset: only digits', 'Your password consits of digits exclusively. This shrinks the count of possible combinations dramatically!'));
+        PasswordInfoType.Info, 'Charset: only digits', 'Your password consits only of digits. This shrinks the count of possible combinations dramatically!'));
     }
     if (password.match('^[A-Za-z]+$')) {
       this.safetyInfos.push(new PasswordInfo(
-        PasswordInfoType.Info, 'Charset: only of letters', 'Your password consits of letters exclusively. You can enhance the password by adding digits and special characters.'));
+        PasswordInfoType.Info, 'Charset: only letters', 'Your password consits only of letters. You can enhance the password by adding digits and special characters.'));
     }
     if (password.match('^(?:\\d+[a-zA-Z]|[a-zA-Z]+\\d)[a-zA-Z\\d]*$')) {
       this.safetyInfos.push(new PasswordInfo(
