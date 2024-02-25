@@ -16,4 +16,4 @@ ADD nginx.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /var/www
 
-COPY --from=development /usr/src/app/dist/password-security .
+COPY --from=development /usr/src/app/dist/password-security/browser .
