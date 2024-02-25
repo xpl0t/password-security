@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/xpl0t/password-security/compare/v1.1.4...v1.2.0) (2024-02-25)
+
+
+### Features
+
+* added service worker ([3e4e3f9](https://github.com/xpl0t/password-security/commit/3e4e3f9cd681c61eb2178656ab441cfd5d0322cc))
+
 ### [1.1.4](https://github.com/xpl0t/password-security/compare/v1.1.3...v1.1.4) (2024-02-25)
 
 ### [1.1.3](https://github.com/xpl0t/password-security/compare/v1.1.2...v1.1.3) (2024-02-25)
