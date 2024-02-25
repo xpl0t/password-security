@@ -1,15 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { Component } from '@angular/core';
+import { MatCard, MatCardAvatar, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
+import { MatFormField, MatHint, MatSuffix } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { EntropyInfos } from './entropy-info';
 import { PasswordInfo, PasswordInfoType } from './password-info';
 import * as topPasswords from './top10000.json';
-import { HttpClient } from '@angular/common/http';
-import { EntropyInfos } from './entropy-info';
 
 @Component({
   selector: 'app-password',
+  standalone: true,
   templateUrl: './password.component.html',
-  styleUrls: ['./password.component.css']
+  styleUrls: ['./password.component.css'],
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    DecimalPipe,
+    MatFormField,
+    MatCard,
+    MatCardHeader,
+    MatCardAvatar,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardContent,
+    MatProgressBar,
+    MatIcon,
+    MatHint,
+    MatInput,
+    MatSuffix
+  ]
 })
-export class PasswordComponent implements OnInit {
+export class PasswordComponent {
   public curPassword = '';
   public hidePassword = true;
 
@@ -22,11 +46,6 @@ export class PasswordComponent implements OnInit {
   public saftyPercentage = 50;
 
   public safetyInfos: PasswordInfo[] = [];
-
-  constructor(private http: HttpClient) { }
-
-  ngOnInit() {
-  }
 
   onPasswordUpdate(password: string) {
     if (password.length > 0) {

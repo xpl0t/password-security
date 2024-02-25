@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { PasswordComponent } from './password/password.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  imports: [
+    PasswordComponent
+  ]
 })
-export class AppComponent {
-  title = 'password-security';
-}
+export class AppComponent {}
