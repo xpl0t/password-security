@@ -6,8 +6,10 @@ env:
   IMAGE_NAME: entropy
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ release/dockerhub ]
+    tags:
+      - v*.*.*
 
 jobs:
 
