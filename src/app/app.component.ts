@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { MatIcon, MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+import { HeaderComponent } from './header/header.component';
 import { PasswordComponent } from './password/password.component';
 
 @Component({
@@ -6,7 +9,18 @@ import { PasswordComponent } from './password/password.component';
   standalone: true,
   templateUrl: './app.component.html',
   imports: [
-    PasswordComponent
+    HeaderComponent,
+    PasswordComponent,
+    MatIcon
   ]
 })
-export class AppComponent {}
+export class AppComponent {
+
+  private sanitizer = inject(DomSanitizer);
+  private matIconRegistry = inject(MatIconRegistry);
+
+  public constructor() {
+    this.matIconRegistry.addSvgIcon('logo', this.sanitizer.bypassSecurityTrustResourceUrl("/assets/icon.svg"));
+  }
+
+}
