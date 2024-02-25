@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "release": "standard-version"
   },
   "dependencies": {
     "@angular/animations": "^17.2.2",
@@ -31,6 +32,7 @@
     "@angular/compiler-cli": "^17.2.2",
     "@angular/language-service": "^17.2.2",
     "@types/node": "~20.11.20",
+    "standard-version": "^9.5.0",
     "typescript": "~5.3.3"
   }
 }
