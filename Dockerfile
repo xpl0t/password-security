@@ -1,4 +1,4 @@
-FROM node:12-alpine AS development
+FROM node:20-alpine AS development
 
 WORKDIR /usr/src/app
 
@@ -10,7 +10,7 @@ COPY . .
 
 RUN npm run build -- -c production
 
-FROM nginx:1.21.3-alpine AS production
+FROM nginx:1.25.4-alpine AS production
 
 ADD nginx.conf /etc/nginx/conf.d/default.conf
 
