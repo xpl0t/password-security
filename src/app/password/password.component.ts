@@ -1,5 +1,6 @@
-import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Component, effect, signal } from '@angular/core';
+import { form, FormField } from '@angular/forms/signals';
 import { MatCard, MatCardAvatar, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
 import { MatFormField, MatHint, MatSuffix } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -15,10 +16,8 @@ import * as topPasswords from './top10000.json';
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.css'],
   imports: [
-    NgIf,
-    NgFor,
-    NgClass,
     DecimalPipe,
+    FormField,
     MatFormField,
     MatCard,
     MatCardHeader,
@@ -34,43 +33,44 @@ import * as topPasswords from './top10000.json';
   ]
 })
 export class PasswordComponent {
-  public curPassword = '';
-  public hidePassword = true;
+  public readonly passwordModel = signal({ password: '' });
+  public readonly passwordForm = form(this.passwordModel);
 
-  public statisticTimeout = -1;
+  public readonly curPassword = signal('');
+  public readonly hidePassword = signal(true);
+  public readonly showSafetyInfo = signal(false);
+  public readonly entropyInfos = signal<EntropyInfos>({ entropy: 0, poolSize: 0, possibleCombinations: 0 });
+  public readonly saftyPercentage = signal(50);
+  public readonly safetyInfos = signal<PasswordInfo[]>([]);
 
-  public showSafetyInfo = false;
+  constructor() {
+    effect(() => this.updatePasswordInfos(this.passwordModel().password));
+  }
 
-  public entropyInfos: EntropyInfos = { entropy: 0, poolSize: 0, possibleCombinations: 0 };
-
-  public saftyPercentage = 50;
-
-  public safetyInfos: PasswordInfo[] = [];
-
-  onPasswordUpdate(password: string) {
-    if (password.length > 0) {
-      this.entropyInfos = this.getEntropyInfos(password);
-      this.saftyPercentage = this.getSafetyPercentage(this.entropyInfos.entropy);
-    }
-    this.updatePasswordInfos(password);
+  public togglePasswordVisibility(): void {
+    this.hidePassword.update(value => !value);
   }
 
   updatePasswordInfos(password: string) {
-    this.curPassword = password;
-    this.safetyInfos = [];
+    this.curPassword.set(password);
+    this.safetyInfos.set([]);
 
-    if (this.statisticTimeout !== -1) {
-      clearTimeout(this.statisticTimeout);
+    if (password.length > 0) {
+      const entropyInfos = this.getEntropyInfos(password);
+      this.entropyInfos.set(entropyInfos);
+      this.saftyPercentage.set(this.getSafetyPercentage(entropyInfos.entropy));
     }
 
-    this.showSafetyInfo = (password.length > 0) ? true : false;
-    if (this.showSafetyInfo === false) { return; }
+    this.showSafetyInfo.set(password.length > 0);
+    if (!this.showSafetyInfo()) { return; }
+    const infos: PasswordInfo[] = [];
 
     // Searching in top passwords
     if (password.length < 50) {
-      const passwordIdx = this.findIndex(topPasswords['default'], password);
+      const topPasswordList = (topPasswords as unknown as { default: string[] }).default;
+      const passwordIdx = this.findIndex(topPasswordList, password);
       if (passwordIdx !== -1) {
-        this.safetyInfos.push({
+        infos.push({
           type: PasswordInfoType.Critical,
           title: 'This password is the number ' + (passwordIdx + 1).toString() + ' of the most used passwords!',
           description: 'Your password is used very often! This password can be cracked by wordlist attacks in a very short time!'
@@ -80,21 +80,21 @@ export class PasswordComponent {
 
     // Checking length
     if (password.match('^.{1,6}$')) {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Warning,
         title: 'Length: very short',
         description: 'Better use passwords with 9 characters or more'
       });
     }
     if (password.match('^.{7,9}$')) {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Warning,
         title: 'Length: short',
         description: 'Better use passwords with 9 characters or more'
       });
     }
     if (password.match('^.{15,}$')) {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Achievement,
         title: 'Length: very long',
         description: 'Well done 😎 The longer the password the stronger it is!'
@@ -104,14 +104,14 @@ export class PasswordComponent {
     // Guesses
 
     if (password.match('^[a-zA-Z]{1,16}$')) {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Warning,
         title: 'Possibly a word',
         description: 'Your password is possibly a word or name. If it is related to a person, pet or something else it could be easily guessed. If it is a word of some language it can be easily cracked too.'
       });
     }
     if (password.match('^([a-zA-Z]+[0-9]+|[0-9]+[a-zA-Z]+)$')) {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Warning,
         title: 'Possibly a word with a number',
         description: 'Your password is possibly a word with number. This is a common combination, which can be cracked pretty fast.'
@@ -119,7 +119,7 @@ export class PasswordComponent {
     }
 
     if (password.match('^[\\-\\(\\)\\.\\/\\s0-9]+$')) {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Warning,
         title: 'Possibly a telephone number / date',
         description: 'Your password is possibly a date or a telephone number. If it is related to you in someway it could be easily guessed, for example your birthday.'
@@ -129,21 +129,21 @@ export class PasswordComponent {
     // character variety
 
     if (password.match('^[0-9]+$')) {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Info,
         title: 'Charset: only digits',
         description: 'Your password consits only of digits. This shrinks the count of possible combinations dramatically!'
       });
     }
     if (password.match('^[A-Za-z]+$')) {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Info,
         title: 'Charset: only letters',
         description: 'Your password consits only of letters. You can enhance the password by adding digits and special characters.'
       });
     }
     if (password.match('^(?:\\d+[a-zA-Z]|[a-zA-Z]+\\d)[a-zA-Z\\d]*$')) {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Info,
         title: 'Charset: no special characters',
         description: 'Your password consits only of letters and digits. You can enhance the security of your password easily by adding them to your password.'
@@ -152,7 +152,7 @@ export class PasswordComponent {
 
 
     if (password.match('(.+)\\1{2,}')) {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Warning,
         title: 'Repeating pattern',
         description: 'Repeating patterns can make your password more predictable.'
@@ -162,28 +162,29 @@ export class PasswordComponent {
     // Achievements / eastereggs
 
     if (password === 'correcthorsebatterystaple') {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Achievement,
         title: 'xkcd',
         description: 'Come on, you know whats up 😎'
       });
     }
     if (password.match('[^A-Za-z0-9\\u0000-\\u007E]')) {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Achievement,
         title: 'Unicode',
         description: 'Your password contains unicode characters, which increases the size of the charset very much, which is very good 😉'
       });
     }
     if (password.match('^xpl0t|calendario|millionare|billionare$')) {
-      this.safetyInfos.push({
+      infos.push({
         type: PasswordInfoType.Easteregg,
         title: 'calendario',
         description: 'The real g and developer of calendario. Lives the great live in new Zealand...'
       });
     }
 
-    this.safetyInfos.sort((a, b) => (a.type > b.type) ? -1 : (a.type < b.type) ? 1 : 0);
+    infos.sort((a, b) => (a.type > b.type) ? -1 : (a.type < b.type) ? 1 : 0);
+    this.safetyInfos.set(infos);
   }
 
   private findIndex(list: string[], item: string): number {

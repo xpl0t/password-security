@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { MatIcon, MatIconRegistry } from '@angular/material/icon';
+import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HeaderComponent } from './header/header.component';
 import { PasswordComponent } from './password/password.component';
@@ -10,8 +10,7 @@ import { PasswordComponent } from './password/password.component';
   templateUrl: './app.component.html',
   imports: [
     HeaderComponent,
-    PasswordComponent,
-    MatIcon
+    PasswordComponent
   ]
 })
 export class AppComponent {
