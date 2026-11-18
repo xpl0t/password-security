@@ -4,12 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Screenshots
 
-### Empty password field
-
 ![Password Security with an empty password field](docs/screenshots/password-security-empty.png)
-
-### Password analysis
-
 ![Password Security showing entropy analysis](docs/screenshots/password-security-analysis.png)
 
 ## Development server
