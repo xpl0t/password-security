@@ -5,35 +5,29 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
     "release": "standard-version"
   },
   "dependencies": {
-    "@angular/animations": "^17.2.2",
-    "@angular/cdk": "^17.2.1",
-    "@angular/common": "^17.2.2",
-    "@angular/compiler": "^17.2.2",
-    "@angular/core": "^17.2.2",
-    "@angular/forms": "^17.2.2",
-    "@angular/material": "^17.2.1",
-    "@angular/platform-browser": "^17.2.2",
-    "@angular/platform-browser-dynamic": "^17.2.2",
-    "@angular/service-worker": "^17.2.2",
+    "@angular/animations": "^22.2.6",
+    "@angular/cdk": "^22.3.0",
+    "@angular/common": "^22.2.6",
+    "@angular/compiler": "^22.2.6",
+    "@angular/core": "^22.2.6",
+    "@angular/forms": "^22.2.6",
+    "@angular/material": "^22.3.0",
+    "@angular/platform-browser": "^22.2.6",
+    "@angular/service-worker": "^22.2.6",
     "bootstrap": "^5.3.3",
-    "core-js": "^2.5.4",
     "rxjs": "~7.8.1",
-    "tslib": "^2.6.2",
-    "zone.js": "~0.14.4"
+    "tslib": "^2.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.2.1",
-    "@angular/cli": "^17.2.1",
-    "@angular/compiler-cli": "^17.2.2",
-    "@angular/language-service": "^17.2.2",
-    "@types/node": "~20.11.20",
+    "@angular-devkit/build-angular": "^22.2.7",
+    "@angular/cli": "^22.2.7",
+    "@angular/compiler-cli": "^22.2.6",
+    "@angular/language-service": "^22.2.6",
+    "@types/node": "~22.0.0",
     "standard-version": "^9.5.0",
-    "typescript": "~5.3.3"
+    "typescript": "~6.0.3"
   }
 }

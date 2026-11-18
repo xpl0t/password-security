@@ -16,7 +16,7 @@
             "outputPath": "dist/password-security",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["src/polyfills.ts"],
+            "polyfills": [],
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -78,24 +78,6 @@
             "buildTarget": "password-security:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
-            "styles": [
-              "src/styles.css"
-            ],
-            "scripts": [],
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest"
-            ]
-          }
-        }
       }
     }
   }

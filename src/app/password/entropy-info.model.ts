@@ -1,5 +1,5 @@
 export class EntropyInfos {
-  poolSize: number;
-  entropy: number;
-  possibleCombinations: number;
+  poolSize = 0;
+  entropy = 0;
+  possibleCombinations = 0;
 }
